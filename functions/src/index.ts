@@ -22,5 +22,7 @@ exports.update_presence = onRequest(async (req, res) => {
     .collection(`chats/${course}/${section}/room/users`)
     .add({ name: name, photoURL: photoURL });
   // Send back a message that we've successfully written the message
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, POST");
   res.json({ result: `Message with ID: ${writeResult.id} added.` });
 });
