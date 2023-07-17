@@ -37,5 +37,4 @@ exports.update_presence = onRequest(async (req, res) => {
     }
       break;
   }
-}
 });
