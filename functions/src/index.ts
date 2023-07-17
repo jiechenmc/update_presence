@@ -11,11 +11,7 @@ initializeApp();
 // Take the text parameter passed to this HTTP endpoint and insert it into
 // Firestore under the path /messages/:documentId/original
 exports.update_presence = onRequest(async (req, res) => {
-  const uid = req.query.uid as string;
-  const name = req.query.name;
-  const course = req.query.course;
-  const section = req.query.section;
-  const photoURL = req.query.photoURL;
+  const { uid, name, course, section, photoURL } = req.body.data;
 
   logger.info(`${name} presence updated`);
   // Push the new message into Firestore using the Firebase Admin SDK.
