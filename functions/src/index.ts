@@ -11,7 +11,7 @@ initializeApp();
 // Take the text parameter passed to this HTTP endpoint and insert it into
 // Firestore under the path /messages/:documentId/original
 exports.update_presence = onRequest(async (req, res) => {
-  const { uid, name, course, section, photoURL } = req.body.data ?? req.body;
+  const { uid, name, course, section, photoURL, status } = req.body.data ?? req.body;
 
   res.set("Access-Control-Allow-Origin", "*");
 
@@ -28,7 +28,7 @@ exports.update_presence = onRequest(async (req, res) => {
       // Push the new message into Firestore using the Firebase Admin SDK.
       const writeResult = await getFirestore()
         .collection(`chats/${course}/${section}/room/users`)
-        .doc(uid).set({ name: name, photoURL: photoURL });
+        .doc(uid).set({ name: name, photoURL: photoURL, status: status });
 
       const updateTime = writeResult.writeTime.toDate();
 
