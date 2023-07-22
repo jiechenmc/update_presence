@@ -5,12 +5,13 @@ import { onRequest } from "firebase-functions/v2/https";
 // The Firebase Admin SDK to access Firestore.
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
+import { onObjectFinalized } from "firebase-functions/v2/storage";
 
 initializeApp();
 
 // Take the text parameter passed to this HTTP endpoint and insert it into
 // Firestore under the path /messages/:documentId/original
-exports.update_presence = onRequest(async (req, res) => {
+exports.update_presence = onRequest({ region: 'us-east1' }, async (req, res) => {
   const { uid, name, course, section, photoURL, status } = req.body.data ?? req.body;
 
   res.set("Access-Control-Allow-Origin", "*");
@@ -38,3 +39,8 @@ exports.update_presence = onRequest(async (req, res) => {
       break;
   }
 });
+
+exports.upload_file_to_chat = onObjectFinalized({ region: 'us-east1' }, async (event) => {
+  logger.log("Object Upload Event TRIGGERED")
+  logger.log(event.data.metadata)
+})
